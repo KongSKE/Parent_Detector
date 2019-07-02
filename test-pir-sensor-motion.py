@@ -4,6 +4,6 @@ pir = MotionSensor(4)
 
 print('test-pir-sensor-motion.py has started ...')
 
-while True:
-    pir.wait_for_motion()
-    print('Motion detected!')
+pir.wait_for_motion()
+
+print('Motion detected!')
