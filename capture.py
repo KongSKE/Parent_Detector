@@ -1,11 +1,11 @@
-from picamera import Picamera
+from picamera import PiCamera
 from time import sleep
 from gpiozero import Button
 
 'Take a photo by button clicking'
 
 button= Button(17)
-camera = Picamera()
+camera = PiCamera()
 
 camera.rotation = 180
 camera.start_preview()
