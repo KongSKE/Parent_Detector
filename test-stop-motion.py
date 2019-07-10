@@ -4,6 +4,7 @@ from gpiozero import Button
 # Initialized
 camera = PiCamera()
 button = Button(17)
+camera.rotation = 180
 
 # Stop motion
 print('The test-stop-motion starts.')
