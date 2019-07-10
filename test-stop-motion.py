@@ -9,7 +9,7 @@ button = Button(17)
 print('The test-stop-motion starts.')
 print('The program will automatically exit when counter = 5.')
 counter = 1
-max = 5
+max = 20
 while counter <= max:
     try:
         print('Counter = ' + str(counter))
