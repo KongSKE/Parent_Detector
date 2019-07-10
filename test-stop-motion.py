@@ -14,10 +14,10 @@ while counter <= max:
     try:
         print('Counter = ' + str(counter))
         button.wait_for_press()
-        camera.capture('/home/pi/Desktop/Parent_Detector/animation/frame%03d.jpg'.format(counter))
+        camera.capture('/home/pi/Desktop/Parent_Detector/animation/frame%03d.jpg' % counter)
         print('Take the picture, ' + str(counter) + ' round.')
         counter += 1
-    except:
+    except KeyboardInterrupt:
         break
 print('The test-stop-motion finishes.')
 print('The program ends.')
