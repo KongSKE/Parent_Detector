@@ -9,13 +9,11 @@ camera.rotation = 180
 
 # Take the picture by clicking the button.
 camera.start_preview()
-frame = 1
 while True:
     try:
         button.wait_for_press()
-        pic_name = str(datetime.datetime.now())[:19:].replace(':', '.') + '--' + str(frame)
+        pic_name = str(datetime.datetime.now())[:19:].replace(':', '.')
         camera.capture('/home/pi/Parent_Detector/button-pic/' + pic_name)
-        frame += 1
     except KeyboardInterrupt:
         camera.stop_preview()
         break
