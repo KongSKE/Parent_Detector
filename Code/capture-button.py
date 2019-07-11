@@ -1,23 +1,20 @@
 from picamera import PiCamera
-from time import sleep
 from gpiozero import Button
+import datetime
 
-'Take a photo by button clicking'
-
+# Initialized
 button= Button(17)
 camera = PiCamera()
-
 camera.rotation = 180
+
+# Take the picture by clicking the button.
 camera.start_preview()
-# button.wait_for_press()
-# sleep(3)
-# camera.capture('./image.jpg')
-# camera.stop_preview()
 frame = 1
 while True:
     try:
         button.wait_for_press()
-        camera.capture('/home/pi/animation/frame%03d.jpg' % frame)
+        pic_name = str(datetime.datetime.now())[:19:].replace(':', '.') + '--' + str(frame)
+        camera.capture('/home/pi/Parent_Detector/button-pic/' + pic_name)
         frame += 1
     except KeyboardInterrupt:
         camera.stop_preview()
