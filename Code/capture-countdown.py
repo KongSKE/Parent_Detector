@@ -30,3 +30,5 @@ except:
     print('User input error.')
     print('The countdown number should >= 1.')
     print('Please try again ...')
+finally:
+    print('The program ends.')
