@@ -17,11 +17,10 @@ def capture_countdown(delay):
         countdown = delay
         while countdown >= 1:
             print(countdown)
-            sleep(countdown)
+            sleep(1)
             countdown -= 1
         pic_name = str(datetime.datetime.now())[:19:].replace(':', '.')
         camera.capture('../countdown-pic/' + pic_name + '.jpg')
-        camera.capture()
 
 # ConsoleUI
 try:
