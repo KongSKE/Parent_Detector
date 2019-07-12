@@ -13,7 +13,7 @@ while True:
     try:
         button.wait_for_press()
         pic_name = str(datetime.datetime.now())[:19:].replace(':', '-').replace(' ','_')
-        camera.capture('/home/pi/Parent_Detector/button-pic/' + pic_name)
+        camera.capture('/home/pi/Parent_Detector/button-pic/' + pic_name + '.jpg')
     except KeyboardInterrupt:
         camera.stop_preview()
         break
