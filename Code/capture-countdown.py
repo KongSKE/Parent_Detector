@@ -27,9 +27,9 @@ def capture_countdown(delay):
 try:
     user_delay = int(input('Countdown for take a photo: '))
     capture_countdown(user_delay)
-# except:
-#     print('User input error.')
-#     print('The countdown number should >= 1.')
-#     print('Please try again ...')
+except ValueError:
+    print('User input error.')
+    print('The countdown number should >= 1.')
+    print('Please try again ...')
 finally:
     print('The program ends.')
