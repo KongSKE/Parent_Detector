@@ -9,7 +9,7 @@ while True:
     pir.wait_for_motion()
     print("Motion Detected")
     camera.start_recording(filename)
-    pir.wait_for_no_motion
+    pir.wait_for_no_motion()
     camera.stop_recording()
     question = input("Do you wanna continue monitoring? (Y)es or (N)o: ")
     if question == 'n':
