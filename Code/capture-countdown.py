@@ -1,5 +1,5 @@
-# from picamera import PiCamera
-# from gpiozero import Button
+from picamera import PiCamera
+from gpiozero import Button
 from time import sleep
 import datetime
 
