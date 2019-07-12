@@ -19,7 +19,7 @@ def capture_countdown(delay):
             print(countdown)
             countdown -= 1
         pic_name = str(datetime.datetime.now())[:19:].replace(':', '.')
-        camera.capture('/home/pi/Parent_Detector/countdown-pic/' + pic_name)
+        camera.capture('../countdown-pic/' + pic_name + '.jpg')
         camera.capture()
 
 # ConsoleUI
