@@ -8,7 +8,7 @@ camera = PiCamera()
 camera.rotation = 180
 
 # Take the picture by clicking the button.
-# camera.start_preview()
+camera.start_preview()
 while True:
     try:
         button.wait_for_press()
