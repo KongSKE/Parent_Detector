@@ -5,6 +5,7 @@ from gpiozero import Button
 # Initialized
 button = Button(17)
 camera = PiCamera()
+camera.rotation = 180
 
 # Test the selfie feature
 print('The test-selfie-feature starts.')

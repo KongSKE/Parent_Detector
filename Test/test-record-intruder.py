@@ -4,6 +4,7 @@ from time import sleep
 
 camera = PiCamera()
 pir = MotionSensor(4)
+camera.rotation = 180
 filename = "../intruder-record/test-intruder.h264"
 
 while True:
