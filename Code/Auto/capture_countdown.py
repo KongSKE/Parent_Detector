@@ -4,9 +4,10 @@ from time import sleep
 import datetime
 
 # Initialized
-button = Button(17)
-camera = PiCamera()
-camera.rotation = 180
+def initialized():
+    button = Button(17)
+    camera = PiCamera()
+    camera.rotation = 180
 
 # Countdown capture function
 def capture_countdown(delay):
@@ -23,12 +24,13 @@ def capture_countdown(delay):
         camera.capture('../countdown-pic/' + pic_name + '.jpg')
 
 # ConsoleUI
-try:
-    user_delay = int(input('Countdown for take a photo: '))
-    capture_countdown(user_delay)
-except ValueError:
-    print('User input error.')
-    print('The countdown number should >= 1.')
-    print('Please try again ...')
-finally:
-    print('The program ends.')
+def consoleUI():
+    try:
+        user_delay = int(input('Countdown for take a photo: '))
+        capture_countdown(user_delay)
+    except ValueError:
+        print('User input error.')
+        print('The countdown number should >= 1.')
+        print('Please try again ...')
+    finally:
+        print('The program ends.')
