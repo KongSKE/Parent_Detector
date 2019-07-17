@@ -2,6 +2,9 @@
 import Manual as manualObj
 # from firebase import Firebase
 import time
+from picamera import PiCamera
+from gpiozero import Button
+import datetime
 
 '''
 {
@@ -11,6 +14,10 @@ import time
 
 }
 '''
+
+button = Button(17)
+camera = PiCamera()
+camera.rotation = 180
 
 receiveData = {'isBusy': False, 'mode': 'manual-capture-button', 'parameter': ''}
 if receiveData['isBusy']:
