@@ -1,8 +1,9 @@
-# import Auto as autoObj
+import Auto as autoObj
 import Manual as manualObj
 # from firebase import Firebase
 from picamera import PiCamera
 from gpiozero import Button
+from gpiozero import MotionSensor
 import datetime
 import time
 
@@ -18,8 +19,9 @@ import time
 button = Button(17)
 camera = PiCamera()
 camera.rotation = 180
+pir = MotionSensor(4)
 
-receiveData = {'isBusy': False, 'mode': 'manual-record-button', 'parameter': ''}
+receiveData = {'isBusy': False, 'mode': 'auto-capture-detectIntruder', 'parameter': ''}
 if receiveData['isBusy']:
     pass
 else:
@@ -29,15 +31,22 @@ else:
     commandName = modeSplit[2]
     commandParam = receiveData['parameter']
     if commandType == 'auto':
-        # Auto feature
-        pass
+        if commandFunc == 'capture':
+            if commandName == 'countdown':
+                autoObj.captureCountdownObj.consoleUI(camera, datetime, time)
+            elif commandName == 'detectIntruder':
+                autoObj.captureDetectIntruderObj.capture_detect_intruder(pir, datetime, camera, time)
+            else:
+                print("Don't have " + commandFunc + " command.")
+        elif commandFunc == 'record':
+            pass
+        else:
+            print("Don't have " + commandFunc + " function.")
     elif commandType == 'manual':
         if commandFunc == 'record':
             manualObj.recordButtonObj.record_button(camera, button, datetime, time)
-            pass
         elif commandFunc == 'capture':
             manualObj.captureButtonObj.capture_button(camera, button, datetime)
-            pass
         else:
             print("Don't have " + commandFunc + " function.")
     else:
