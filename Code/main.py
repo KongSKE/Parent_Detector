@@ -33,7 +33,6 @@ else:
         pass
     elif commandType == 'manual':
         if commandFunc == 'capture':
-            manualObj.captureButtonObj.initialized()
             manualObj.captureButtonObj.capture_button()
         else:
             # Record manual feature
