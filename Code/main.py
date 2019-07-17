@@ -34,5 +34,3 @@ else:
     else:
         # Error
         pass
-
-manualObj.captureButtonObj.initialized()
