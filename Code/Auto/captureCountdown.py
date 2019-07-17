@@ -1,14 +1,3 @@
-from picamera import PiCamera
-from gpiozero import Button
-from time import sleep
-import datetime
-
-# Initialized
-def initialized():
-    button = Button(17)
-    camera = PiCamera()
-    camera.rotation = 180
-
 # Countdown capture function
 def capture_countdown(delay):
     if delay <= 0:

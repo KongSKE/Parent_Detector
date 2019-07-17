@@ -1,13 +1,3 @@
-from picamera import PiCamera
-from gpiozero import Button
-import datetime
-
-# Initialized
-def initialized():
-    button = Button(17)
-    camera = PiCamera()
-    camera.rotation = 180
-
 # Take the picture by clicking the button.
 def capture_button():
     camera.start_preview()
