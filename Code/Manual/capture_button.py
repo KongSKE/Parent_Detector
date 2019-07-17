@@ -1,5 +1,6 @@
 # Take the picture by clicking the button.
 def capture_button():
+    global camera, button
     camera.start_preview()
     while True:
         try:
