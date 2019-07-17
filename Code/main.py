@@ -12,7 +12,7 @@ import time
 }
 '''
 
-receiveData = "{'isBusy': False, 'mode': 'manual-capture-button', 'parameter': ''}"
+receiveData = {'isBusy': False, 'mode': 'manual-capture-button', 'parameter': ''}
 if receiveData['isBusy']:
     pass
 else:
