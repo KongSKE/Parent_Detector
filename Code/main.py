@@ -1,6 +1,6 @@
 # import Auto as autoObj
 import Manual as manualObj
-from firebase import Firebase
+# from firebase import Firebase
 import time
 
 '''
