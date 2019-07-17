@@ -1,10 +1,10 @@
 # import Auto as autoObj
 import Manual as manualObj
 # from firebase import Firebase
-import time
 from picamera import PiCamera
 from gpiozero import Button
 import datetime
+import time
 
 '''
 {
@@ -19,7 +19,7 @@ button = Button(17)
 camera = PiCamera()
 camera.rotation = 180
 
-receiveData = {'isBusy': False, 'mode': 'manual-capture-button', 'parameter': ''}
+receiveData = {'isBusy': False, 'mode': 'manual-record-button', 'parameter': ''}
 if receiveData['isBusy']:
     pass
 else:
@@ -32,11 +32,13 @@ else:
         # Auto feature
         pass
     elif commandType == 'manual':
-        if commandFunc == 'capture':
-            manualObj.captureButtonObj.capture_button()
-        else:
-            # Record manual feature
+        if commandFunc == 'record':
+            manualObj.recordButtonObj.record_button(camera, button, datetime, time)
             pass
+        elif commandFunc == 'capture':
+            manualObj.captureButtonObj.capture_button(camera, button, datetime)
+            pass
+        else:
+            print("Don't have " + commandFunc + " function.")
     else:
-        # Error
-        pass
+        print("Don't have " + commandType + " feature.")
