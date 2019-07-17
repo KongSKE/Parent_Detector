@@ -1,8 +1,8 @@
-from gpiozero import Motionsensor
+from gpiozero import MotionSensor
 from picamera import PiCamera
 from datetime import datetime
 
-pir = Motionsensor(4)
+pir = MotionSensor(4)
 camera = PiCamera()
 
 while True:
