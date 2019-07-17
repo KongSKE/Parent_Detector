@@ -4,7 +4,7 @@ import datetime
 
 # Initialized
 def initialized():
-    button= Button(17)
+    button = Button(17)
     camera = PiCamera()
     camera.rotation = 180
 
