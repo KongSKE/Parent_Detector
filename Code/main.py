@@ -9,7 +9,6 @@ import time
 
 '''
 {
-    'isBusy': False,
     'mode': 'manual-capture-button',
     'parameter': '',
 
@@ -21,33 +20,31 @@ camera = PiCamera()
 camera.rotation = 180
 pir = MotionSensor(4)
 
-receiveData = {'isBusy': False, 'mode': 'auto-capture-detectIntruder', 'parameter': ''}
-if receiveData['isBusy']:
-    pass
-else:
-    modeSplit = receiveData['mode'].split('-')
-    commandType = modeSplit[0]
-    commandFunc = modeSplit[1]
-    commandName = modeSplit[2]
-    commandParam = receiveData['parameter']
-    if commandType == 'auto':
-        if commandFunc == 'capture':
-            if commandName == 'countdown':
-                autoObj.captureCountdownObj.consoleUI(camera, datetime, time)
-            elif commandName == 'detectIntruder':
-                autoObj.captureDetectIntruderObj.capture_detect_intruder(pir, datetime, camera, time)
-            else:
-                print("Don't have " + commandFunc + " command.")
-        elif commandFunc == 'record':
-            pass
+receiveData = {'mode': 'auto-capture-detectIntruder', 'parameter': ''}
+
+modeSplit = receiveData['mode'].split('-')
+commandType = modeSplit[0]
+commandFunc = modeSplit[1]
+commandName = modeSplit[2]
+commandParam = receiveData['parameter']
+if commandType == 'auto':
+    if commandFunc == 'capture':
+        if commandName == 'countdown':
+            autoObj.captureCountdownObj.consoleUI(camera, datetime, time)
+        elif commandName == 'detectIntruder':
+            autoObj.captureDetectIntruderObj.capture_detect_intruder(pir, datetime, camera, time)
         else:
-            print("Don't have " + commandFunc + " function.")
-    elif commandType == 'manual':
-        if commandFunc == 'record':
-            manualObj.recordButtonObj.record_button(camera, button, datetime, time)
-        elif commandFunc == 'capture':
-            manualObj.captureButtonObj.capture_button(camera, button, datetime)
-        else:
-            print("Don't have " + commandFunc + " function.")
+            print("Don't have " + commandFunc + " command.")
+    elif commandFunc == 'record':
+        pass
     else:
-        print("Don't have " + commandType + " feature.")
+        print("Don't have " + commandFunc + " function.")
+elif commandType == 'manual':
+    if commandFunc == 'record':
+        manualObj.recordButtonObj.record_button(camera, button, datetime, time)
+    elif commandFunc == 'capture':
+        manualObj.captureButtonObj.capture_button(camera, button, datetime)
+    else:
+        print("Don't have " + commandFunc + " function.")
+else:
+    print("Don't have " + commandType + " feature.")
