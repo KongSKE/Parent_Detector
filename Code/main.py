@@ -8,6 +8,10 @@ import datetime
 import time
 import thread
 import threading
+import multiprocessing
+import sys
+import os
+from random import choice
 
 button = Button(17)
 camera = PiCamera()
@@ -42,20 +46,11 @@ def raspi_controller(receiveData):
         if commandFunc == 'record':
             manualObj.recordButtonObj.record_button(camera, button, datetime, time)
         elif commandFunc == 'capture':
-            manualObj.captureButtonObj.capture_button(camera, button, datetime)
+            manualObj.captureButtonObj.capture_button(camera, button, time, datetime)
         else:
             print("Don't have " + commandFunc + " function.")
     else:
         print("Don't have " + commandType + " feature.")        
-        
-#try:
-#receiveData = {'mode': 'manual-capture-button', 'parameter': ''}
-#print('Ready to start new thread !')
-#print('Start new thread successfully ...')
-#time.sleep(10)
-#print('The program exits ...')
-#except:
-#    print('Error: unable to start thread')
 
 box_data = [
     {'mode': 'manual-capture-button', 'parameter': ''},
@@ -66,19 +61,30 @@ box_data = [
     {'mode': 'auto-record-detectIntruder', 'parameter': ''},
     ]
 
-select_index = 0
+select_index = choice([0,1])
+
+def restart_program():
+    python = sys.executable
+    os.execl(python, python, * sys.argv)
 
 def run():
-    global stop_threads, box_data, select_index
-    print('Thread running')
-    raspi_controller(box_data[select_index])
-        
-for i in range(2):
-    t1 = threading.Thread(target = run)
-    t1.start()
-    time.sleep(5)
-    t1._Thread__stop()
-    select_index += 1
-    time.sleep(2)
+    while True:
+        user_input = str(raw_input('numbers 0 - 5 : '))
+        if select_index == int(user_input):
+            continue
+        else:
+#            camera.stop_preview()
+#            camera.stop_recording()
+            print('Restart .')
+            camera.close()
+            restart_program()
+    
+t1 = threading.Thread(target = run)
+t1.start()
+time.sleep(2)
+print('Selected: ' + str(select_index))
+raspi_controller(box_data[select_index])
+
+
     
 print('Program ends ...') 
