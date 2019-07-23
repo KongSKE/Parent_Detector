@@ -10,7 +10,7 @@ def record_detect_intruder(pir, datetime, camera, time, duration):
             camera.start_recording('../intruder-video/' + video_name + '.h264')
             time.sleep(duration)
             camera.stop_recording()
-            print('Start recording ...' + video_name + '.h264')
+            print('Stop recording ...' + video_name + '.h264')
             time.sleep(1)
         except KeyboardInterrupt:
             print('The capture detect intruder feature ends.')
