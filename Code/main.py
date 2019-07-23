@@ -27,7 +27,7 @@ def implement_in_raspi(receiveData):
     commandFunc = modeSplit[1]
     commandName = modeSplit[2]
     commandParam = receiveData['parameter']
-    modeName = commandType + commandFunc + commandName
+    modeName = commandType + '-' + commandFunc + '-' + commandName
     if commandType == 'auto':
         if commandFunc == 'capture':
             if commandName == 'countdown':
@@ -100,6 +100,7 @@ while True:
     if is_connect_db:
         print('Selected feature: ' + raspi_status['mode'])
         implement_in_raspi(raspi_status)
+        break
     else:
         time.sleep(1)
         continue
