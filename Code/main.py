@@ -1,16 +1,15 @@
 # Import the necessary module
-import Auto as autoObj
-import Manual as manualObj
+from gpiozero import MotionSensor
 from firebase import firebase
 from picamera import PiCamera
 from gpiozero import Button
-from gpiozero import MotionSensor
+import Manual as manualObj
+import Auto as autoObj
+import threading
 import datetime
 import time
-import threading
 import sys
 import os
-from random import choice
 
 # Initialized global variables
 button = Button(17)
@@ -28,32 +27,44 @@ def implement_in_raspi(receiveData):
     commandFunc = modeSplit[1]
     commandName = modeSplit[2]
     commandParam = receiveData['parameter']
+    modeName = commandType + commandFunc + commandName
     if commandType == 'auto':
         if commandFunc == 'capture':
             if commandName == 'countdown':
-                autoObj.captureCountdownObj.consoleUI(camera, datetime, time)
+                # auto-capture-countdown
+                user_delay = int(commandParam)
+                autoObj.captureCountdownObj.capture_countdown(camera, datetime, time, user_delay)
             elif commandName == 'detectIntruder':
+                # auto-capture-detectIntruder
                 autoObj.captureDetectIntruderObj.capture_detect_intruder(pir, datetime, camera, time)
             else:
-                print("Don't have " + commandFunc + " command.")
+                print("Don't have " + modeName + " command.")
         elif commandFunc == 'record':
             if commandName == 'countdown':
-                autoObj.recordCountdownObj.consoleUI(camera, datetime, time)
+                # auto-record-countdown
+                paramBox = commandParam.split(',')
+                user_delay = int(paramBox[0])
+                user_duration = int(paramBox[1])
+                autoObj.recordCountdownObj.record_countdown(camera, datetime, time, user_delay, user_duration)
             elif commandName == 'detectIntruder':
-                autoObj.recordDetectIntruderObj.record_detect_intruder(pir, datetime, camera, time, 10)
+                # auto-record-detectIntruder
+                user_duration = int(commandParam)
+                autoObj.recordDetectIntruderObj.record_detect_intruder(pir, datetime, camera, time, user_duration)
             else:
-                print("Don't have " + commandFunc + " command.")
+                print("Don't have " + modeName + " command.")
         else:
-            print("Don't have " + commandFunc + " function.")
+            print("Don't have " + modeName + " function.")
     elif commandType == 'manual':
         if commandFunc == 'record':
+            # manual-capture-record
             manualObj.recordButtonObj.record_button(camera, button, datetime, time)
         elif commandFunc == 'capture':
+            # manual-capture-button
             manualObj.captureButtonObj.capture_button(camera, button, time, datetime)
         else:
-            print("Don't have " + commandFunc + " function.")
+            print("Don't have " + modeName + " function.")
     else:
-        print("Don't have " + commandType + " feature.")        
+        print("Don't have " + modeName + " feature.")        
 
 # Restart the program
 def restart_program():
@@ -79,7 +90,7 @@ def connect_with_database():
             continue
         else:
             camera.close()
-            print('User changes the feature. Restart the program.')
+            print('The current feature has changed. Restart the program.')
             restart_program()
 
 # Running the program
@@ -92,21 +103,3 @@ while True:
     else:
         time.sleep(1)
         continue
-
-# Demo
-# select_index = choice([0,1])
-# box_data = [
-#     {'mode': 'manual-capture-button', 'parameter': ''},
-#     {'mode': 'manual-record-button', 'parameter': ''},
-#     {'mode': 'auto-capture-countdown', 'parameter': ''},
-#     {'mode': 'auto-capture-detectIntruder', 'parameter': ''},
-#     {'mode': 'auto-record-countdown', 'parameter': ''},
-#     {'mode': 'auto-record-detectIntruder', 'parameter': ''},
-#     ]
-# db_thread = threading.Thread(target = connect_with_database)
-# db_thread.start()
-# time.sleep(2)
-# print('Selected: ' + str(select_index))
-# implement_in_raspi(box_data[select_index])
-
-print('Program ends ...') 
