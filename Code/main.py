@@ -18,7 +18,7 @@ camera = PiCamera()
 camera.rotation = 180
 pir = MotionSensor(4)
         
-def raspi_controller(receiveData):
+def implement_in_raspi(receiveData):
     global button, camera, pir
     modeSplit = receiveData['mode'].split('-')
     commandType = modeSplit[0]
@@ -73,8 +73,6 @@ def run():
         if select_index == int(user_input):
             continue
         else:
-#            camera.stop_preview()
-#            camera.stop_recording()
             print('Restart .')
             camera.close()
             restart_program()
@@ -83,8 +81,6 @@ t1 = threading.Thread(target = run)
 t1.start()
 time.sleep(2)
 print('Selected: ' + str(select_index))
-raspi_controller(box_data[select_index])
-
-
+implement_in_raspi(box_data[select_index])
     
 print('Program ends ...') 
