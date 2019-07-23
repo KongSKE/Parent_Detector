@@ -18,6 +18,7 @@ camera = PiCamera()
 camera.rotation = 180
 pir = MotionSensor(4)
 raspi_status = None
+is_connect_db = False
         
 # Implement the feature in raspberry pi
 def implement_in_raspi(receiveData):
@@ -61,12 +62,13 @@ def restart_program():
 
 # Function for checking the status with the database
 def connect_with_database():
-    global raspi_status, first_time, firebase
+    global raspi_status, first_time, firebase, is_connect_db
     firebase = firebase.FirebaseApplication('https://vuejs-http-9ad70.firebaseio.com/', None)
     result = firebase.get('/status', None)
     command_list = list(result.values())
     last_index = len(command_list) - 1
     raspi_status = command_list[last_index]
+    is_connect_db = True
     while True:
         result_2 = firebase.get('/status', None)
         command_list_2 = list(result_2.values())
@@ -83,9 +85,13 @@ def connect_with_database():
 # Running the program
 db_thread = threading.Thread(target = connect_with_database)
 db_thread.start()
-time.sleep(1)
-print('Selected feature: ' + raspi_status['mode'])
-implement_in_raspi(raspi_status)
+while True:
+    if is_connect_db:
+        print('Selected feature: ' + raspi_status['mode'])
+        implement_in_raspi(raspi_status)
+    else:
+        time.sleep(1)
+        continue
 
 # Demo
 # select_index = choice([0,1])
