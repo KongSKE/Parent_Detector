@@ -1,4 +1,4 @@
-import capture_countdown as captureCountdownObj
-import capture_detect_intruder as captureDetectIntruderObj
-import record_countdown as recordCountdownObj
-import record_detect_intruder as recordDetectIntruderObj
+from .capture_countdown import capture_countdown as captureCountdownObj
+from .capture_detect_intruder import capture_detect_intruder as captureDetectIntruderObj
+from .record_countdown import record_countdown as recordCountdownObj
+from .record_detect_intruder import record_detect_intruder as recordDetectIntruderObj
