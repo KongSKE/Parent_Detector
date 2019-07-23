@@ -3,19 +3,13 @@ def capture_button(camera, button, time, datetime):
     print('... capture_button starts ...')
     while True:
         try:
-#            camera.start_preview()
-            button.wait_for_press()
-            pic_name = str(datetime.datetime.now())[:19:].replace(':', '-').replace(' ','_')
-#            camera.capture('../button-pic/' + pic_name + '.jpg')
-            print('Take the picture: ' + pic_name + '.jpg')
-            time.sleep(3)
-#            camera.stop_preview()
-#            user_input = raw_input('Do you want to continue ? (y)es : ')
-#            if user_input == 'y' or user_input == 'Y':
-#                continue
-#            print('Exit the capture by button feature ...')
-#            break
+                camera.start_preview()
+                button.wait_for_press()
+                pic_name = str(datetime.datetime.now())[:19:].replace(':', '-').replace(' ','_')
+                camera.capture('../button-pic/' + pic_name + '.jpg')
+                camera.stop_preview()
+                print('Take the picture: ' + pic_name + '.jpg')
+                time.sleep(1)
         except KeyboardInterrupt:
-            camera.stop_preview()
-            break
-    print('... capture_button ends ...')
+                camera.stop_preview()
+                break   
