@@ -63,6 +63,16 @@ def implement_in_raspi(receiveData):
             manualObj.captureButtonObj.capture_button(camera, button, time, datetime)
         else:
             print("Don't have " + modeName + " function.")
+    elif commandType == 'video':
+        if commandFunc == 'live':
+            if commandName == 'start':
+                # sudo service motion start
+                os.system('ls')
+            elif commandName == 'stop':
+                # sudo service motion stop
+                os.system('ls -a')
+            else:
+                print("Don't have " + modeName + " command.")
     else:
         print("Don't have " + modeName + " feature.")        
 
