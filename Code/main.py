@@ -12,9 +12,8 @@ import sys
 import os
 
 # Initialized global variables
+camera = None
 button = Button(17)
-camera = PiCamera()
-camera.rotation = 180
 pir = MotionSensor(4)
 raspi_status = None
 is_connect_db = False
@@ -29,6 +28,7 @@ def implement_in_raspi(receiveData):
     commandParam = receiveData['parameter']
     modeName = commandType + '-' + commandFunc + '-' + commandName
     if commandType == 'auto':
+        camera = PiCamera()
         if commandFunc == 'capture':
             if commandName == 'countdown':
                 # auto-capture-countdown
@@ -55,6 +55,7 @@ def implement_in_raspi(receiveData):
         else:
             print("Don't have " + modeName + " function.")
     elif commandType == 'manual':
+        camera = PiCamera()
         if commandFunc == 'record':
             # manual-capture-record
             manualObj.recordButtonObj.record_button(camera, button, datetime, time)
@@ -67,10 +68,12 @@ def implement_in_raspi(receiveData):
         if commandFunc == 'live':
             if commandName == 'start':
                 # sudo service motion start
-                os.system('ls')
+                print('See the LIVE video streaming at: http://192.168.68.68:8081')
+                os.system('python3 LIVE_video/start_video_live.py')
             elif commandName == 'stop':
                 # sudo service motion stop
-                os.system('ls -a')
+                print('Stop the LIVE video streaming')
+                os.system('python3 LIVE_video/stop_video_live.py')
             else:
                 print("Don't have " + modeName + " command.")
     else:
@@ -99,8 +102,11 @@ def connect_with_database():
             time.sleep(3)
             continue
         else:
-            camera.close()
+            if not camera == None:
+                camera.close()
+            print('\n==================')
             print('The current feature has changed. Restart the program.')
+            print('==================\n')
             restart_program()
 
 # Running the program
@@ -110,6 +116,8 @@ while True:
     if is_connect_db:
         print('Selected feature: ' + raspi_status['mode'])
         implement_in_raspi(raspi_status)
+        print('... <Raspi Thread> stops ...')
+        print('... <Connect with DB Thread> is still running ...')
         break
     else:
         time.sleep(1)
