@@ -1,6 +1,8 @@
 from google.cloud import storage
-import os
+import threading
 import pyrebase
+import time
+import os
 
 ''' Global variable '''
 bucket_name = 'vuejs-http-9ad70.appspot.com'
@@ -39,3 +41,60 @@ def list_buckets_and_items():
         print('Bucket name: ' + bucket.name)
         for item in bucket.list_blobs():
             print('\t' + item.name)
+
+''' Get the list of items from folder '''
+def list_items_in_bucket(folder_name):
+    global bucket
+    storage_list = []
+    for item in bucket.list_blobs():
+        if folder_name in item.name:
+            item_name = item.name.replace(folder_name + '/', '')
+            storage_list.append(item_name)
+    return storage_list
+
+''' Check & Upload into firebase storage for each folder'''
+def upload_media(folder_name, delete_after_upload):
+    # Initial variable
+    local_list = []
+    my_path = '../' + folder_name + '/'
+    
+    # Storage check
+    storage_list = list_items_in_bucket(folder_name)
+    
+    # Local check
+    for r, d, f in os.walk(my_path):
+        for item in f:
+            if item == 'README.txt':
+                continue
+            local_list.append(item)
+    
+    # Compare one by one, Upload the missing items
+    if len(local_list) != 0:
+        for local_item in local_list:
+            if local_item in storage_list and not 'video' in folder_name:
+                continue
+            else:
+                source_file_name = my_path + local_item
+                destination_blob_name = folder_name + '/' + local_item
+                upload_blob(source_file_name, destination_blob_name)
+    
+    # Delete the local media which has uploaded to the storage server
+    if delete_after_upload:
+        for item in local_list:
+            item_name = my_path + item
+            os.remove(item_name)
+            print(item_name + ' is deleted.')
+    
+    time.sleep(0.5)
+
+''' Main method '''
+list_of_folders = ['button-pic', 'button-video', 'countdown-pic', 'countdown-video', 'intruder-pic', 'intruder-video']
+print('--- Start Checking and Uploading the new media ---')
+try:
+    while True:
+        for i in range(len(list_of_folders)):
+            upload_media(list_of_folders[i], False)
+        time.sleep(1)
+except KeyboardInterrupt:
+    for i in range(len(list_of_folders)):
+            upload_media(list_of_folders[i], True)
