@@ -1,5 +1,6 @@
 # Import the necessary module
 from gpiozero import MotionSensor
+from google.cloud import storage
 from firebase import firebase
 from picamera import PiCamera
 from gpiozero import Button
@@ -7,20 +8,27 @@ import Manual as manualObj
 import Auto as autoObj
 import threading
 import datetime
+import pyrebase
 import time
 import sys
 import os
 
-# Initialized global variables
+# Global variables
 camera = None
 button = Button(17)
 pir = MotionSensor(4)
 raspi_status = None
 is_connect_db = False
+
+# Global variables for firebase storage
+bucket_name = 'vuejs-http-9ad70.appspot.com'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'GOOGLE_APPLICATION_CREDENTIALS.json'
+storage_client = storage.Client()
+bucket = storage_client.get_bucket(bucket_name)
         
 # Implement the feature in raspberry pi
 def implement_in_raspi(receiveData):
-    global button, camera, pir
+    global button, camera, pir, bucket
     modeSplit = receiveData['mode'].split('-')
     commandType = modeSplit[0]
     commandFunc = modeSplit[1]
@@ -58,10 +66,10 @@ def implement_in_raspi(receiveData):
         camera = PiCamera()
         if commandFunc == 'record':
             # manual-capture-record
-            manualObj.recordButtonObj.record_button(camera, button, datetime, time)
+            manualObj.recordButtonObj.record_button(camera, button, datetime, time, bucket, os)
         elif commandFunc == 'capture':
             # manual-capture-button
-            manualObj.captureButtonObj.capture_button(camera, button, time, datetime)
+            manualObj.captureButtonObj.capture_button(camera, button, time, datetime, bucket, os)
         else:
             print("Don't have " + modeName + " function.")
     elif commandType == 'video':
