@@ -117,9 +117,13 @@ def connect_with_database():
             print('==================\n')
             restart_program()
 
+def run_storage_checking():
+    os.system('python3 Storage/storage.py')
+
 # Running the program
 db_thread = threading.Thread(target = connect_with_database)
 db_thread.start()
+run_storage_checking()
 while True:
     if is_connect_db:
         print('Selected feature: ' + raspi_status['mode'])
