@@ -54,6 +54,7 @@ def list_items_in_bucket(folder_name):
 
 ''' Check & Upload into firebase storage for each folder'''
 def upload_media(folder_name, delete_after_upload):
+    
     # Initial variable
     local_list = []
     my_path = '../' + folder_name + '/'
@@ -71,7 +72,7 @@ def upload_media(folder_name, delete_after_upload):
     # Compare one by one, Upload the missing items
     if len(local_list) != 0:
         for local_item in local_list:
-            if local_item in storage_list and not 'video' in folder_name:
+            if local_item in storage_list:
                 continue
             else:
                 source_file_name = my_path + local_item
@@ -83,18 +84,13 @@ def upload_media(folder_name, delete_after_upload):
         for item in local_list:
             item_name = my_path + item
             os.remove(item_name)
-            print(item_name + ' is deleted.')
     
-    time.sleep(0.5)
+    time.sleep(0.2)
 
 ''' Main method '''
 list_of_folders = ['button-pic', 'button-video', 'countdown-pic', 'countdown-video', 'intruder-pic', 'intruder-video']
-print('--- Start Checking and Uploading the new media ---')
-try:
-    while True:
-        for i in range(len(list_of_folders)):
-            upload_media(list_of_folders[i], False)
-        time.sleep(1)
-except KeyboardInterrupt:
-    for i in range(len(list_of_folders)):
-            upload_media(list_of_folders[i], True)
+print('--- Start Check and Upload the remaining media ---')
+for i in range(len(list_of_folders)):
+    upload_media(list_of_folders[i], True)
+time.sleep(0.5)
+print('--- End Check and Upload the remaining media ---')
