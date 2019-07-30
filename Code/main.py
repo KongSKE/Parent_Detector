@@ -41,10 +41,10 @@ def implement_in_raspi(receiveData):
             if commandName == 'countdown':
                 # auto-capture-countdown
                 user_delay = int(commandParam)
-                autoObj.captureCountdownObj.capture_countdown(camera, datetime, time, user_delay)
+                autoObj.captureCountdownObj.capture_countdown(camera, datetime, time, user_delay, bucket, os)
             elif commandName == 'detectIntruder':
                 # auto-capture-detectIntruder
-                autoObj.captureDetectIntruderObj.capture_detect_intruder(pir, datetime, camera, time)
+                autoObj.captureDetectIntruderObj.capture_detect_intruder(pir, datetime, camera, time, bucket, os)
             else:
                 print("Don't have " + modeName + " command.")
         elif commandFunc == 'record':
@@ -53,11 +53,11 @@ def implement_in_raspi(receiveData):
                 paramBox = commandParam.split(',')
                 user_delay = int(paramBox[0])
                 user_duration = int(paramBox[1])
-                autoObj.recordCountdownObj.record_countdown(camera, datetime, time, user_delay, user_duration)
+                autoObj.recordCountdownObj.record_countdown(camera, datetime, time, user_delay, user_duration, bucket, os)
             elif commandName == 'detectIntruder':
                 # auto-record-detectIntruder
                 user_duration = int(commandParam)
-                autoObj.recordDetectIntruderObj.record_detect_intruder(pir, datetime, camera, time, user_duration)
+                autoObj.recordDetectIntruderObj.record_detect_intruder(pir, datetime, camera, time, user_duration, bucket, os)
             else:
                 print("Don't have " + modeName + " command.")
         else:

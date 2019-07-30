@@ -1,4 +1,4 @@
-def record_countdown(camera, datetime, time, delay, duration):
+def record_countdown(camera, datetime, time, delay, duration, bucket, os):
     print('... record_countdown starts ...')
     while True:
         if delay <= 0:
@@ -6,16 +6,31 @@ def record_countdown(camera, datetime, time, delay, duration):
             print('Please try again ...')
             break
         else:
+            
+            # Create video file
             print('The record countdown feature will start in ...')
             countdown = delay
             while countdown >= 1:
                 print(countdown)
                 time.sleep(1)
                 countdown -= 1
-            video_name = '../countdown-video/' + str(datetime.datetime.now())[:19:].replace(':', '-').replace(' ','_') + '.h264'
-            print('Start recording ...' + video_name + '.h264')
-            camera.start_recording(video_name)
+            video_name = str(datetime.datetime.now())[:19:].replace(':', '-').replace(' ','_')
+            video_file_name = video_name + '.h264'
+            video_path_name = '../countdown-video/' + video_file_name
+            print('Start recording ...' + video_file_name)
+            camera.start_recording(video_path_name)
             time.sleep(duration)
-            print('Stop recording ...' + video_name + '.h264')
+            print('Stop recording ...' + video_file_name)
             camera.stop_recording()
+            
+            # Upload into firebase storage
+            source_file_name = video_path_name
+            destination_blob_name = 'countdown-video/' + video_file_name
+            blob = bucket.blob(destination_blob_name)
+            blob.upload_from_filename(source_file_name)
+            print('File {} uploaded to {}'.format(source_file_name, destination_blob_name))
+            
+            # Delete uploaded file
+            os.remove(video_path_name)
+            
             time.sleep(1)
