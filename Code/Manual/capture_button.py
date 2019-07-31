@@ -8,7 +8,7 @@ def capture_button(camera, button, time, datetime, bucket, os):
         button.wait_for_press()
         pic_name = str(datetime.datetime.now())[:19:].replace(':', '-').replace(' ','_')
         pic_file_name = pic_name + '.jpg'
-        pic_path_name = '../button-pic' + pic_file_name
+        pic_path_name = '../button-pic/' + pic_file_name
         camera.capture(pic_path_name)
         camera.stop_preview()
         print('Take the picture: ' + pic_file_name)
