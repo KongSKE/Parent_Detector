@@ -5,7 +5,7 @@ import time
 import os
 
 ''' Global variable '''
-bucket_name = 'vuejs-http-9ad70.appspot.com'
+bucket_name = 'fir-realtime-69681.appspot.com'
 
 ''' Setup '''
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'GOOGLE_APPLICATION_CREDENTIALS.json'

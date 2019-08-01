@@ -21,7 +21,7 @@ raspi_status = None
 is_connect_db = False
 
 # Global variables for firebase storage
-bucket_name = 'vuejs-http-9ad70.appspot.com'
+bucket_name = 'fir-realtimeweb-69681.appspot.com'
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'GOOGLE_APPLICATION_CREDENTIALS.json'
 storage_client = storage.Client()
 bucket = storage_client.get_bucket(bucket_name)
@@ -75,17 +75,19 @@ def implement_in_raspi(receiveData):
     elif commandType == 'video':
         if commandFunc == 'live':
             if commandName == 'start':
-                # sudo service motion start
-                print('See the LIVE video streaming at: http://192.168.68.68:8081')
-                os.system('python3 LIVE_video/start_video_live.py')
-            elif commandName == 'stop':
-                # sudo service motion stop
-                print('Stop the LIVE video streaming')
-                os.system('python3 LIVE_video/stop_video_live.py')
+                start_live_video()
             else:
-                print("Don't have " + modeName + " command.")
+                stop_live_video()
+        else:
+            print("Don't have " + modeName + " function.")
     else:
         print("Don't have " + modeName + " feature.")        
+
+def start_live_video():
+    os.system('python3 LIVE_video/start_video_live.py')
+    
+def stop_live_video():
+    os.system('python3 LIVE_video/stop_video_live.py')
 
 # Restart the program
 def restart_program():
@@ -95,6 +97,7 @@ def restart_program():
 # Function for checking the status with the database
 def connect_with_database():
     global raspi_status, first_time, firebase, is_connect_db
+#    firebase = firebase.FirebaseApplication('https://fir-realtimeweb-69681.firebaseio.com/', None)
     firebase = firebase.FirebaseApplication('https://vuejs-http-9ad70.firebaseio.com/', None)
     result = firebase.get('/status', None)
     command_list = list(result.values())
@@ -123,7 +126,7 @@ def run_storage_checking():
 # Running the program
 db_thread = threading.Thread(target = connect_with_database)
 db_thread.start()
-run_storage_checking()
+#run_storage_checking()
 while True:
     if is_connect_db:
         print('Selected feature: ' + raspi_status['mode'])
@@ -134,3 +137,6 @@ while True:
     else:
         time.sleep(1)
         continue
+#implement_in_raspi({'mode': 'manual-capture-button', 'parameter': ''})
+#camera = PiCamera()
+#camera.close()

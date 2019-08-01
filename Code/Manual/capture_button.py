@@ -6,11 +6,11 @@ def capture_button(camera, button, time, datetime, bucket, os):
         # Create image file
         camera.start_preview()
         button.wait_for_press()
+        camera.stop_preview()
         pic_name = str(datetime.datetime.now())[:19:].replace(':', '-').replace(' ','_')
         pic_file_name = pic_name + '.jpg'
         pic_path_name = '../button-pic/' + pic_file_name
         camera.capture(pic_path_name)
-        camera.stop_preview()
         print('Take the picture: ' + pic_file_name)
 
         # Upload into firebase storage

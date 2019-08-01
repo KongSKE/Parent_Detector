@@ -1,3 +1,5 @@
+from picamera import PiCamera
+
 # Take the picture by clicking the button.
 def record_button(camera, button, datetime, time, bucket, os):
     print('... record_button starts ...')
@@ -13,8 +15,8 @@ def record_button(camera, button, datetime, time, bucket, os):
         camera.start_recording(video_path_name)
         time.sleep(3)
         button.wait_for_press()
-        camera.stop_recording()
         camera.stop_preview()
+        camera.stop_recording()
         print('Stop recording the video: ' + video_file_name)
 
         # Upload into firebase storage
@@ -28,4 +30,5 @@ def record_button(camera, button, datetime, time, bucket, os):
         os.remove(video_path_name)
 
         time.sleep(1)
+
 
