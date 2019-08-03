@@ -40,7 +40,8 @@ def implement_in_raspi(receiveData):
         if commandFunc == 'capture':
             if commandName == 'countdown':
                 # auto-capture-countdown
-                user_delay = int(commandParam)
+                # user_delay = int(commandParam)
+                user_delay = 5
                 autoObj.captureCountdownObj.capture_countdown(camera, datetime, time, user_delay, bucket, os)
             elif commandName == 'detectIntruder':
                 # auto-capture-detectIntruder
@@ -51,8 +52,10 @@ def implement_in_raspi(receiveData):
             if commandName == 'countdown':
                 # auto-record-countdown
                 paramBox = commandParam.split(',')
-                user_delay = int(paramBox[0])
-                user_duration = int(paramBox[1])
+                # user_delay = int(paramBox[0])
+                # user_duration = int(paramBox[1])
+                user_delay = 5
+                user_duration = int(paramBox[0])
                 autoObj.recordCountdownObj.record_countdown(camera, datetime, time, user_delay, user_duration, bucket, os)
             elif commandName == 'detectIntruder':
                 # auto-record-detectIntruder
@@ -97,8 +100,8 @@ def restart_program():
 # Function for checking the status with the database
 def connect_with_database():
     global raspi_status, first_time, firebase, is_connect_db
-#    firebase = firebase.FirebaseApplication('https://fir-realtimeweb-69681.firebaseio.com/', None)
-    firebase = firebase.FirebaseApplication('https://vuejs-http-9ad70.firebaseio.com/', None)
+    firebase = firebase.FirebaseApplication('https://fir-realtimeweb-69681.firebaseio.com/', None)
+#    firebase = firebase.FirebaseApplication('https://vuejs-http-9ad70.firebaseio.com/', None)
     result = firebase.get('/status', None)
     command_list = list(result.values())
     last_index = len(command_list) - 1
