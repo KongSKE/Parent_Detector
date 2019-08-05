@@ -27,7 +27,7 @@ def record_button(camera, button, datetime, time, bucket, os):
         print('File {} uploaded to {}'.format(source_file_name, destination_blob_name))
         
         # Upload with overwrite the latest-video file
-        source_file_name = pic_path_name
+        source_file_name = video_path_name
         destination_blob_name = 'latest-video.h264'
         blob = bucket.blob(destination_blob_name)
         blob.upload_from_filename(source_file_name)
