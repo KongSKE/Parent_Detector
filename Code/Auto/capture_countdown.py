@@ -27,6 +27,13 @@ def capture_countdown(camera, datetime, time, delay, bucket, os):
             blob.upload_from_filename(source_file_name)
             print('File {} uploaded to {}'.format(source_file_name, destination_blob_name))
             
+            # Upload with overwrite the latest-picture file
+            source_file_name = pic_path_name
+            destination_blob_name = 'latest-picture.jpg'
+            blob = bucket.blob(destination_blob_name)
+            blob.upload_from_filename(source_file_name)
+            print('File {} uploaded by overwrite to {}'.format(source_file_name, destination_blob_name))
+            
             # Delete uploaded file
             os.remove(pic_path_name)
             
